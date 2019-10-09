@@ -1,34 +1,85 @@
 autoUpdate:
   enabled: true
-  schedule: '0 0 * * *'
+  schedule: 0 0 * * *
 cluster:
-  clusterName: ""
-  environmentGitOwner: ""
-  project: ""
+  azure: {}
+  clusterName: jx-aps-whimseylily
+  environmentGitOwner: jenkins-x-bot-test
+  environmentGitPublic: true
+  externalDNSSAName: jx-aps-whimseylily-dn
+  gitKind: github
+  gitName: github
+  gitServer: https://github.com
+  kanikoSAName: jx-aps-whimseylily-ko
+  namespace: jx
+  project: aps-whimseylily
   provider: gke
-  zone: ""
-gitops: true
+  registry: gcr.io
+  vaultName: jx-aps-whimseylily
+  vaultSAName: jx-aps-whimseylily-vt
+  zone: us-east1-c
 environments:
-- key: dev
-- key: staging
-- key: production
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: dev
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: staging
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: production
+gitops: true
 ingress:
-  domain: ""
-  externalDNS: false
+  cloud_dns_secret_name: external-dns-gcp-sa
+  domain: aps-whimseylily.jxaas.io
+  domainIssuerURL: https://jx-tenant-service-jx-staging.jenkins-x.live
+  externalDNS: true
+  namespaceSubDomain: -jx.
   tls:
     email: jenkins-x@cloudbees.com
     enabled: true
-    production: false
+    production: true
 kaniko: true
 secretStorage: vault
 storage:
+  backup:
+    enabled: true
+    url: gs://aps-whimseylily-backup
   logs:
-    enabled: false
-    url: ""
+    enabled: true
+    url: gs://aps-whimseylily-lts
   reports:
     enabled: false
     url: ""
   repository:
     enabled: false
     url: ""
+vault:
+  bucket: aps-whimseylily-vault
+  key: jx-aps-whimseylily-crypto-key
+  keyring: jx-aps-whimseylily-keyring
+  name: jx-aps-whimseylily
+  serviceAccount: jx-aps-whimseylily-vt
+velero: {}
+versionStream:
+  ref: v0.0.8
+  url: https://github.com/cloudbees/arcalos-jenkins-x-versions.git
 webhook: prow
